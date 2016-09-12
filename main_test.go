@@ -12,9 +12,9 @@ func NewMockServer() Server {
 	return Server{cache, mockRedis}
 }
 
-func NewMockRouter() *web.Router {
+func NewMockRouter() (Server, *web.Router) {
 	server := NewMockServer()
 	router := web.New(server)
 	setupRoutes(router, server)
-	return router
+	return server, router
 }

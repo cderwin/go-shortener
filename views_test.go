@@ -3,8 +3,10 @@ package main
 import (
 	"net/http"
 	"net/http/httptest"
+	"reflect"
 	"strings"
 	"testing"
+	"time"
 )
 
 // Test helpers
@@ -46,14 +48,14 @@ func checkResponse(t *testing.T, rw *httptest.ResponseRecorder, statusCode int, 
 // Actual tests
 
 func TestHealthcheckResponse(t *testing.T) {
-	router := NewMockRouter()
+	_, router := NewMockRouter()
 	rw, request := NewRequest("GET", "/healthcheck", "")
 	router.ServeHTTP(rw, request)
 	checkResponse(t, rw, 200, `{"Status":"ok"}`)
 }
 
 func TestAddURL(t *testing.T) {
-	router := NewMockRouter()
+	_, router := NewMockRouter()
 
 	rw, request := NewRequest("POST", "/create", `{"Url": "http://www.nationalreview.com"}`)
 	router.ServeHTTP(rw, request)
@@ -61,19 +63,33 @@ func TestAddURL(t *testing.T) {
 }
 
 func TestFetchURL(t *testing.T) {
-	router := NewMockRouter()
+	server, router := NewMockRouter()
 
+	// Test handler redirects as expected
 	rw, request := NewRequest("GET", "/foobar", "")
 	router.ServeHTTP(rw, request)
 	checkResponse(t, rw, 301, "")
 
+	// Test 404 returned when url does not exist
 	rw, request = NewRequest("GET", "/redsox", "")
 	router.ServeHTTP(rw, request)
 	checkResponse(t, rw, 404, "")
+
+	// Test hits are incremented when URL is hit
+	shortURL, _ := server.Redis.SaveURL("https://news.ycombinator.com")
+	rw, request = NewRequest("GET", "/"+shortURL, "")
+	router.ServeHTTP(rw, request)
+	t.Run("checkIncremented", func(t *testing.T) {
+		expected := Hits{Count: 1, Days: map[time.Time]int{MockNow: 1}}
+		actual, _ := server.Redis.GetHits(shortURL)
+		if !reflect.DeepEqual(expected, actual) {
+			t.Errorf("Expected: %+v\nActual: %+v\n", expected, actual)
+		}
+	})
 }
 
 func TestUrlStats(t *testing.T) {
-	router := NewMockRouter()
+	_, router := NewMockRouter()
 
 	rw, request := NewRequest("GET", "/stats/ghjk", "")
 	router.ServeHTTP(rw, request)

@@ -55,6 +55,7 @@ func (s *Server) fetchUrl(w web.ResponseWriter, r *web.Request) {
 		return
 	}
 
+	s.Redis.IncrementHits(shortUrl)
 	http.Redirect(w, r.Request, longUrl, http.StatusMovedPermanently)
 }
 
