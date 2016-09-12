@@ -21,7 +21,6 @@ func (c MockClock) UTCNow() time.Time {
 	return c.current
 }
 
-
 // Actual tests
 
 func TestBase62(t *testing.T) {

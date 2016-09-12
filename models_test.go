@@ -136,9 +136,9 @@ func TestGetHits(t *testing.T) {
 	mockStore, _ := CreateMockStore()
 	c := mockStore.Clock
 	expectedMap := map[string]Hits{
-		"blah":   Hits{Count: 1117, Days: map[time.Time]int{DateFromDays(1, c): 78, DateFromDays(168, c): 34, DateFromDays(296, c): 672}},
-		"ghjk":   Hits{Count: 387, Days: map[time.Time]int{DateFromDays(3, c): 31, DateFromDays(204, c): 14, DateFromDays(308, c): 76}},
-		"foobar": Hits{Count: 7, Days: map[time.Time]int{DateFromDays(86, c): 4, DateFromDays(287, c): 1, DateFromDays(365, c): 2}},
+		"blah":   {Count: 1117, Days: map[time.Time]int{DateFromDays(1, c): 78, DateFromDays(168, c): 34, DateFromDays(296, c): 672}},
+		"ghjk":   {Count: 387, Days: map[time.Time]int{DateFromDays(3, c): 31, DateFromDays(204, c): 14, DateFromDays(308, c): 76}},
+		"foobar": {Count: 7, Days: map[time.Time]int{DateFromDays(86, c): 4, DateFromDays(287, c): 1, DateFromDays(365, c): 2}},
 	}
 
 	for shortURL, expectedHit := range expectedMap {
@@ -156,10 +156,10 @@ func TestGetHits(t *testing.T) {
 func TestIncrementHits(t *testing.T) {
 	mockStore, mockClient := CreateMockStore()
 	expectedMap := map[string]map[string]string{
-		"blah":   map[string]string{"Total": "1118", "1": "78", "168": "35", "296": "672"},
-		"ghjk":   map[string]string{"Total": "388", "3": "31", "204": "14", "308": "76", "168": "1"},
-		"foobar": map[string]string{"Total": "8", "86": "4", "287": "1", "365": "2", "168": "1"},
-		"baz":    map[string]string{"Total": "1", "168": "1"},
+		"blah":   {"Total": "1118", "1": "78", "168": "35", "296": "672"},
+		"ghjk":   {"Total": "388", "3": "31", "204": "14", "308": "76", "168": "1"},
+		"foobar": {"Total": "8", "86": "4", "287": "1", "365": "2", "168": "1"},
+		"baz":    {"Total": "1", "168": "1"},
 	}
 
 	for key, expectedValue := range expectedMap {

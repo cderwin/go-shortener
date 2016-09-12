@@ -1,8 +1,8 @@
 package main
 
 import (
-	"time"
 	"github.com/patrickmn/go-cache"
+	"time"
 )
 
 func CreateMockServer() Server {

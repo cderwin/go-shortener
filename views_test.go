@@ -2,9 +2,9 @@ package main
 
 import (
 	"github.com/gocraft/web"
+	"net/http/httptest"
 	"strings"
 	"testing"
-	"net/http/httptest"
 )
 
 // Test helpers
@@ -56,7 +56,6 @@ func TestHealthcheckResponse(t *testing.T) {
 	checkResponse(t, rw, 200, `{"Status":"ok"}`)
 }
 
-
 func TestAddURL(t *testing.T) {
 	server := CreateMockServer()
 
@@ -76,7 +75,6 @@ func TestFetchURL(t *testing.T) {
 	server.fetchUrl(rw, request)
 	checkResponse(t, rw, 404, "")
 }
-
 
 func TestUrlStats(t *testing.T) {
 	server := CreateMockServer()

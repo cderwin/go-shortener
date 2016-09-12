@@ -29,7 +29,7 @@ func setupRoutes(router *web.Router, server Server) {
 
 type Server struct {
 	UrlCache *cache.Cache
-	Redis     Datastore
+	Redis    Datastore
 }
 
 func createServer() Server {

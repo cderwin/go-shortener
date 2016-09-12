@@ -35,7 +35,7 @@ type Clock interface {
 	UTCNow() time.Time
 }
 
-type SystemClock struct {}
+type SystemClock struct{}
 
 func NewSystemClock() SystemClock {
 	return SystemClock{}
