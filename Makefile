@@ -3,7 +3,6 @@ SRC := $(shell find . -name "*.go" -type f)
 REGISTRY := registry.camderwin.us
 REPO := $(REGISTRY)/$(ME)
 SERVICE_NAME := app
-DJANGO_CONTAINER_ID := $(shell docker-compose ps -q $(SERVICE_NAME))
 
 build:
 	docker-compose build
