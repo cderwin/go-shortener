@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/gocraft/web"
+	"net/http"
 	"net/http/httptest"
 	"strings"
 	"testing"
@@ -9,15 +9,11 @@ import (
 
 // Test helpers
 
-func NewRequest(method, endpoint, body string, pathParams map[string]string) (*httptest.ResponseRecorder, *web.Request) {
+func NewRequest(method, endpoint, body string) (*httptest.ResponseRecorder, *http.Request) {
 	responseRecorder := httptest.NewRecorder()
 	bodyReader := strings.NewReader(body)
-	if pathParams == nil {
-		pathParams = make(map[string]string)
-	}
-	httpRequest := httptest.NewRequest(method, endpoint, bodyReader)
-	webRequest := &web.Request{Request: httpRequest, PathParams: pathParams}
-	return responseRecorder, webRequest
+	request := httptest.NewRequest(method, endpoint, bodyReader)
+	return responseRecorder, request
 }
 
 func httpStatusCodeTest(rw *httptest.ResponseRecorder, expectedStatusCode int) func(*testing.T) {
@@ -50,40 +46,40 @@ func checkResponse(t *testing.T, rw *httptest.ResponseRecorder, statusCode int, 
 // Actual tests
 
 func TestHealthcheckResponse(t *testing.T) {
-	server := CreateMockServer()
-	rw, request := NewRequest("GET", "/healthcheck", "", nil)
-	server.healthcheck(rw, request)
+	router := NewMockRouter()
+	rw, request := NewRequest("GET", "/healthcheck", "")
+	router.ServeHTTP(rw, request)
 	checkResponse(t, rw, 200, `{"Status":"ok"}`)
 }
 
 func TestAddURL(t *testing.T) {
-	server := CreateMockServer()
+	router := NewMockRouter()
 
-	rw, request := NewRequest("POST", "/create", `{"Url": "http://www.nationalreview.com"}`, nil)
-	server.addUrl(rw, request)
+	rw, request := NewRequest("POST", "/create", `{"Url": "http://www.nationalreview.com"}`)
+	router.ServeHTTP(rw, request)
 	checkResponse(t, rw, 200, `{"Url":"bs1I92"}`)
 }
 
 func TestFetchURL(t *testing.T) {
-	server := CreateMockServer()
+	router := NewMockRouter()
 
-	rw, request := NewRequest("GET", "/foobar", "", map[string]string{"path": "foobar"})
-	server.fetchUrl(rw, request)
+	rw, request := NewRequest("GET", "/foobar", "")
+	router.ServeHTTP(rw, request)
 	checkResponse(t, rw, 301, "")
 
-	rw, request = NewRequest("GET", "/redsox", "", map[string]string{"path": "redsox"})
-	server.fetchUrl(rw, request)
+	rw, request = NewRequest("GET", "/redsox", "")
+	router.ServeHTTP(rw, request)
 	checkResponse(t, rw, 404, "")
 }
 
 func TestUrlStats(t *testing.T) {
-	server := CreateMockServer()
+	router := NewMockRouter()
 
-	rw, request := NewRequest("GET", "/stats/ghjk", "", map[string]string{"path": "ghjk"})
-	server.urlStats(rw, request)
+	rw, request := NewRequest("GET", "/stats/ghjk", "")
+	router.ServeHTTP(rw, request)
 	checkResponse(t, rw, 200, `{"Count":387,"Days":{"2015-07-22T00:00:00Z":14,"2015-11-03T00:00:00Z":76,"2016-01-03T00:00:00Z":31}}`)
 
-	rw, request = NewRequest("GET", "/stats/china", "", map[string]string{"path": "china"})
-	server.urlStats(rw, request)
+	rw, request = NewRequest("GET", "/stats/china", "")
+	router.ServeHTTP(rw, request)
 	checkResponse(t, rw, 404, "")
 }

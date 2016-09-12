@@ -7,7 +7,7 @@ import (
 	"net/http"
 )
 
-func (s *Server) healthcheck(w http.ResponseWriter, r *web.Request) {
+func (s *Server) healthcheck(w web.ResponseWriter, r *web.Request) {
 	status := struct{ Status string }{"ok"}
 	jsonBlob, _ := json.Marshal(status)
 	w.Write(jsonBlob)
@@ -15,7 +15,7 @@ func (s *Server) healthcheck(w http.ResponseWriter, r *web.Request) {
 
 type UrlData struct{ Url string }
 
-func (s *Server) addUrl(w http.ResponseWriter, r *web.Request) {
+func (s *Server) addUrl(w web.ResponseWriter, r *web.Request) {
 	var data UrlData
 	decoder := json.NewDecoder(r.Body)
 	err := decoder.Decode(&data)
@@ -41,7 +41,7 @@ func (s *Server) addUrl(w http.ResponseWriter, r *web.Request) {
 	w.Write(body)
 }
 
-func (s *Server) fetchUrl(w http.ResponseWriter, r *web.Request) {
+func (s *Server) fetchUrl(w web.ResponseWriter, r *web.Request) {
 	shortUrl := r.PathParams["path"]
 	longUrl, err := s.Redis.GetURL(shortUrl)
 	if err == NilValue {
@@ -58,7 +58,7 @@ func (s *Server) fetchUrl(w http.ResponseWriter, r *web.Request) {
 	http.Redirect(w, r.Request, longUrl, http.StatusMovedPermanently)
 }
 
-func (s *Server) urlStats(w http.ResponseWriter, r *web.Request) {
+func (s *Server) urlStats(w web.ResponseWriter, r *web.Request) {
 	shortUrl := r.PathParams["path"]
 	stats, err := s.Redis.GetHits(shortUrl)
 	if err == NilValue {
