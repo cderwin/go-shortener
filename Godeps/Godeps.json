@@ -1,0 +1,54 @@
+{
+	"ImportPath": "app",
+	"GoVersion": "go1.7",
+	"GodepVersion": "v74",
+	"Packages": [
+		"./..."
+	],
+	"Deps": [
+		{
+			"ImportPath": "github.com/patrickmn/go-cache",
+			"Comment": "v2.0.0",
+			"Rev": "1881a9bccb818787f68c52bfba648c6cf34c34fa"
+		},
+		{
+			"ImportPath": "gopkg.in/bsm/ratelimit.v1",
+			"Rev": "db14e161995a5177acef654cb0dd785e8ee8bc22"
+		},
+		{
+			"ImportPath": "gopkg.in/redis.v4",
+			"Comment": "v4.1.6",
+			"Rev": "788a36eee7796dbad237c33f9f73873a7feee292"
+		},
+		{
+			"ImportPath": "gopkg.in/redis.v4/internal",
+			"Comment": "v4.1.6",
+			"Rev": "788a36eee7796dbad237c33f9f73873a7feee292"
+		},
+		{
+			"ImportPath": "gopkg.in/redis.v4/internal/consistenthash",
+			"Comment": "v4.1.6",
+			"Rev": "788a36eee7796dbad237c33f9f73873a7feee292"
+		},
+		{
+			"ImportPath": "gopkg.in/redis.v4/internal/errors",
+			"Comment": "v4.1.6",
+			"Rev": "788a36eee7796dbad237c33f9f73873a7feee292"
+		},
+		{
+			"ImportPath": "gopkg.in/redis.v4/internal/hashtag",
+			"Comment": "v4.1.6",
+			"Rev": "788a36eee7796dbad237c33f9f73873a7feee292"
+		},
+		{
+			"ImportPath": "gopkg.in/redis.v4/internal/pool",
+			"Comment": "v4.1.6",
+			"Rev": "788a36eee7796dbad237c33f9f73873a7feee292"
+		},
+		{
+			"ImportPath": "gopkg.in/redis.v4/internal/proto",
+			"Comment": "v4.1.6",
+			"Rev": "788a36eee7796dbad237c33f9f73873a7feee292"
+		}
+	]
+}
