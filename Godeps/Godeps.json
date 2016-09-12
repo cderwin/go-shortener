@@ -2,10 +2,12 @@
 	"ImportPath": "app",
 	"GoVersion": "go1.7",
 	"GodepVersion": "v74",
-	"Packages": [
-		"./..."
-	],
 	"Deps": [
+		{
+			"ImportPath": "github.com/gocraft/web",
+			"Comment": "v1.1-29-gc8ca29b",
+			"Rev": "c8ca29bc8a1cec97abe95c662e29dd8d31aff6e3"
+		},
 		{
 			"ImportPath": "github.com/patrickmn/go-cache",
 			"Comment": "v2.0.0",
