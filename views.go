@@ -61,6 +61,11 @@ func (s *Server) fetchUrl(w http.ResponseWriter, r *web.Request) {
 func (s *Server) urlStats(w http.ResponseWriter, r *web.Request) {
 	shortUrl := r.PathParams["path"]
 	stats, err := s.Redis.GetHits(shortUrl)
+	if err == NilValue {
+		http.Error(w, "Stats do not exist", 404)
+		return
+	}
+
 	if err != nil {
 		log.Println(err.Error())
 		http.Error(w, "Could not fetch stats", http.StatusInternalServerError)

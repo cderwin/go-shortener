@@ -7,7 +7,6 @@ import (
 	"time"
 )
 
-
 type Datastore interface {
 	GetURL(string) (string, error)
 	SaveURL(string) (string, error)
@@ -18,10 +17,10 @@ type Datastore interface {
 type Redis interface {
 	getHash(string) (map[string]string, error)
 	incrementHash(string, string) error
+	hashExists(string) (bool, error)
 	getKey(string) (string, error)
 	setKey(string, string) error
 }
-
 
 // Direct database access methods, allows for testability of business logic
 
@@ -40,6 +39,15 @@ func (r RedisClient) getHash(key string) (map[string]string, error) {
 
 func (r RedisClient) incrementHash(key, field string) error {
 	return r.HIncrBy(key, field, 1).Err()
+}
+
+func (r RedisClient) hashExists(key string) (bool, error) {
+	len, err := r.HLen(key).Result()
+	if len > 0 {
+		return true, err
+	}
+
+	return false, err
 }
 
 func (r RedisClient) getKey(key string) (string, error) {
@@ -102,6 +110,15 @@ func NewHits() Hits {
 
 func (r RedisStore) GetHits(short_url string) (Hits, error) {
 	key := "hits:" + short_url
+	exists, err := r.hashExists(key)
+	if err != nil {
+		return NewHits(), err
+	}
+
+	if !exists {
+		return NewHits(), NilValue
+	}
+
 	hits_map, err := r.getHash(key)
 	if err != nil {
 		return NewHits(), err
