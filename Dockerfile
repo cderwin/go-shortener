@@ -9,5 +9,7 @@ COPY . /go/src/app
 RUN go-wrapper download
 RUN go-wrapper install
 
+COPY public /usr/local/web
+
 CMD ["go-wrapper", "run"]
 EXPOSE 8080

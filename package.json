@@ -1,23 +1,28 @@
 {
-  "name": "brunch-app",
-  "description": "Description",
-  "author": "Your Name",
+  "name": "go-shortener",
+  "description": "Url shortener written in Go",
+  "author": "Cameron Derwin",
   "version": "0.1.0",
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/cderwin/go-shortener"
   },
   "scripts": {
     "start": "brunch watch --server",
     "build": "brunch build --production"
   },
-  "dependencies": {},
-  "devDependencies": {
+  "dependencies": {
+    "auto-reload-brunch": "^2.0.0",
+    "babel-brunch": "^6.0.6",
     "brunch": "^2.0.0",
-    "javascript-brunch": "^2.0.0",
-    "css-brunch": "^2.0.0",
-    "uglify-js-brunch": "^2.0.0",
     "clean-css-brunch": "^2.0.0",
-    "auto-reload-brunch": "^2.0.0"
+    "css-brunch": "^2.0.0",
+    "jade-brunch": "^2.8.0",
+    "javascript-brunch": "^2.0.0",
+    "uglify-js-brunch": "^2.0.0",
+    "vue": "^1.0.26",
+    "vue-brunch": "1.1.3",
+    "vue-resource": "^1.0.2",
+    "vue-router": "^0.7.13"
   }
 }
