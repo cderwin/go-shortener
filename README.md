@@ -10,11 +10,13 @@ The only requirements are docker and docker-compose, along with GNU make.
 
 To build the container, run `make build`.
 
-To run in development you can simply run `make run`.  This will download a Redis image, start it, and properly run the container itself.  This will build the `go-shortener` container if it does not already exist.
+To run in development you can simply run `make run`.  This will download a Redis image, start it, and properly run the container itself.  It builds the `go-shortener` container if it does not already exist.
+
+The `docker-compose.yaml` file is configured so the API will listen on port 8080.
 
 ## Running (without `docker-compose`)
 
-To run the container without `docker-compose` (as would be appropriate in production), the `REDIS_URL` environment variable must be set to the host and port of the Redis instance.
+To run the container without `docker-compose` (as would be appropriate in production), the `REDIS_URL` environment variable must be set to the host and port of the Redis instance.  The API listens inside the container on port 8080.
 
 ## Running the Tests
 
@@ -24,7 +26,7 @@ Run the tests with `make run`.  This builds the image and compiles the tests bef
 
 ### GET /:shortUrl
 
-Retrieve `shortUrl` from redis using the key `url:{shortUrl}`, which contains the original, unshortened url.  This endpoint returns a 301 Moved Permanently redirect to the original url, and returns a 404 Not Found if `shortUrl` does not exist in Redis.  If the url exists, the total and daily hits count will be incremented (further described below).
+Retrieve `shortUrl` from redis using the key `url:{shortUrl}`, which contains the original, unshortened url.  This endpoint returns a `301 Moved Permanently` redirect to the original url, and returns a `404 Not Found` if `shortUrl` does not exist in Redis.  If the url exists, the total and daily hits count will be incremented (further described below).
 
 Example:
 ```bash
