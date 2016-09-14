@@ -1,0 +1,46 @@
+$ make test
+docker-compose run --rm app go test -cover -v && \
+	touch .tests.ts
+=== RUN   TestGetURL
+--- PASS: TestGetURL (0.00s)
+=== RUN   TestSaveURL
+--- PASS: TestSaveURL (0.00s)
+=== RUN   TestGetHits
+--- PASS: TestGetHits (0.00s)
+=== RUN   TestIncrementHits
+--- PASS: TestIncrementHits (0.00s)
+=== RUN   TestBase62
+--- PASS: TestBase62 (0.00s)
+=== RUN   TestHashURL
+--- PASS: TestHashURL (0.00s)
+=== RUN   TestHealthcheckResponse
+=== RUN   TestHealthcheckResponse/StatusCode
+=== RUN   TestHealthcheckResponse/ResponseBody
+--- PASS: TestHealthcheckResponse (0.00s)
+    --- PASS: TestHealthcheckResponse/StatusCode (0.00s)
+    --- PASS: TestHealthcheckResponse/ResponseBody (0.00s)
+=== RUN   TestAddURL
+=== RUN   TestAddURL/StatusCode
+=== RUN   TestAddURL/ResponseBody
+--- PASS: TestAddURL (0.00s)
+    --- PASS: TestAddURL/StatusCode (0.00s)
+    --- PASS: TestAddURL/ResponseBody (0.00s)
+=== RUN   TestFetchURL
+=== RUN   TestFetchURL/StatusCode
+=== RUN   TestFetchURL/StatusCode#01
+=== RUN   TestFetchURL/checkIncremented
+--- PASS: TestFetchURL (0.00s)
+    --- PASS: TestFetchURL/StatusCode (0.00s)
+    --- PASS: TestFetchURL/StatusCode#01 (0.00s)
+    --- PASS: TestFetchURL/checkIncremented (0.00s)
+=== RUN   TestUrlStats
+=== RUN   TestUrlStats/StatusCode
+=== RUN   TestUrlStats/ResponseBody
+=== RUN   TestUrlStats/StatusCode#01
+--- PASS: TestUrlStats (0.00s)
+    --- PASS: TestUrlStats/StatusCode (0.00s)
+    --- PASS: TestUrlStats/ResponseBody (0.00s)
+    --- PASS: TestUrlStats/StatusCode#01 (0.00s)
+PASS
+coverage: 62.9% of statements
+ok  	app	0.013s
