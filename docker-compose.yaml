@@ -7,6 +7,7 @@ services:
             - REDIS_URL=redis:6379
         volumes:
             - .:/go/src/app
+            - ./public:/usr/local/web
         ports:
             - "8080:8080"
         links:

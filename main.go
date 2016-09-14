@@ -4,6 +4,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"path"
 	"time"
 
 	"github.com/gocraft/web"
@@ -17,6 +18,8 @@ func main() {
 	router := web.New(server)
 	setupRoutes(router, server)
 	router.Middleware(web.LoggerMiddleware)
+	currentRoot, _ := os.Getwd()
+	router.Middleware(web.StaticMiddleware(path.Join(currentRoot, "public"), web.StaticOption{IndexFile: "index.html"}))
 	log.Fatal(http.ListenAndServe(":8080", router))
 }
 
